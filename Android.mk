@@ -1,7 +1,24 @@
-LOCAL_PATH:= $(call my-dir)
-include $(CLEAR_VARS)
+# Copyright (C) 2007 The Android Open Source Project
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
 
-LOCAL_SRC_FILES:= \
+LOCAL_PATH:= $(call my-dir)
+
+#
+# Common definitions for host and device.
+#
+
+src_files := \
 	k_standard.c k_rem_pio2.c \
 	k_cos.c k_sin.c k_tan.c \
 	e_acos.c e_acosh.c e_asin.c e_atan2.c \
@@ -23,17 +40,50 @@ LOCAL_SRC_FILES:= \
 	s_rint.c s_scalbn.c s_signgam.c s_significand.c s_sin.c \
 	s_tan.c s_tanh.c
 
-LOCAL_MODULE := libfdlibm
+# This is necessary to guarantee that the FDLIBM functions are in
+# "IEEE spirit", i.e. to guarantee that the IEEE 754 core functions
+# are used.
+cflags := "-D_IEEE_LIBM"
 
-LOCAL_SYSTEM_SHARED_LIBRARIES :=
 
-# Necessary to guarantee that the FDLIBM functions are in "IEEE spirit", 
-# i.e. to guarantee that the IEEE 754 core functions are used
-LOCAL_CFLAGS := "-D_IEEE_LIBM"
+#
+# Build for the target (device).
+#
+
+include $(CLEAR_VARS)
+
+LOCAL_SRC_FILES:= $(src_files)
+LOCAL_CFLAGS := $(cflags)
 
 ifneq ($(filter $(TARGET_ARCH),arm x86),)
-# When __LITTLE_ENDIAN is set, the source will compile for little endian cpus.
-LOCAL_CFLAGS += "-D__LITTLE_ENDIAN"
+    # When __LITTLE_ENDIAN is set, the source will compile for
+    # little endian cpus.
+    LOCAL_CFLAGS += "-D__LITTLE_ENDIAN"
 endif 
 
+LOCAL_MODULE := libfdlibm
+
 include $(BUILD_STATIC_LIBRARY)
+
+
+#
+# Build for the host.
+#
+
+ifeq ($(WITH_HOST_DALVIK),true)
+
+    include $(CLEAR_VARS)
+
+    LOCAL_SRC_FILES:= $(src_files)
+    LOCAL_CFLAGS := $(cflags)
+
+    ifneq ($(filter $(HOST_ARCH),arm x86),)
+        # See similar section above.
+        LOCAL_CFLAGS += "-D__LITTLE_ENDIAN"
+    endif
+
+    LOCAL_MODULE := libfdlibm-host
+
+    include $(BUILD_HOST_STATIC_LIBRARY)
+
+endif
