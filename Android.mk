@@ -43,7 +43,7 @@ src_files := \
 # This is necessary to guarantee that the FDLIBM functions are in
 # "IEEE spirit", i.e. to guarantee that the IEEE 754 core functions
 # are used.
-cflags := "-D_IEEE_LIBM"
+cflags := "-D_LIB_VERSION_TYPE=\"const enum _IEEE_\""
 
 
 #
@@ -59,7 +59,7 @@ ifneq ($(filter $(TARGET_ARCH),arm x86),)
     # When __LITTLE_ENDIAN is set, the source will compile for
     # little endian cpus.
     LOCAL_CFLAGS += "-D__LITTLE_ENDIAN"
-endif 
+endif
 
 LOCAL_MODULE := libfdlibm
 
