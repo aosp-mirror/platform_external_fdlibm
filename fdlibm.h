@@ -10,13 +10,18 @@
  * ====================================================
  */
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
+#ifndef __LITTLE_ENDIAN
 /* Sometimes it's necessary to define __LITTLE_ENDIAN explicitly
    but these catch some common cases. */
-
 #if defined(i386) || defined(i486) || \
 	defined(intel) || defined(x86) || defined(i86pc) || \
 	defined(__alpha) || defined(__osf__)
 #define __LITTLE_ENDIAN
+#endif
 #endif
 
 #ifdef __LITTLE_ENDIAN
@@ -31,10 +36,13 @@
 #define __LOp(x) *(1+(int*)x)
 #endif
 
+#ifndef __P
+#define __FDLIBM_P_DEFINED
 #ifdef __STDC__
 #define	__P(p)	p
 #else
 #define	__P(p)	()
+#endif
 #endif
 
 /*
@@ -214,3 +222,11 @@ extern double __kernel_sin __P((double,double,int));
 extern double __kernel_cos __P((double,double));
 extern double __kernel_tan __P((double,double,int));
 extern int    __kernel_rem_pio2 __P((double*,double*,int,int,int,const int*));
+
+#ifdef __FDLIBM_P_DEFINED
+#undef __P
+#endif
+
+#ifdef __cplusplus
+}; /* extern "C" */
+#endif
