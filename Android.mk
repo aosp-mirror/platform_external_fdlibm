@@ -45,6 +45,12 @@ src_files := \
 # are used.
 cflags := "-D_LIB_VERSION_TYPE=\"const enum _IEEE_\""
 
+# Disable GCC optimizations that interact badly with this crufty
+# library (see their own admission in 'readme'). Without this, we
+# fail StrictMath tests on x86.
+cflags += "-fno-strict-aliasing"
+cflags += "-ffloat-store"
+
 
 #
 # Build for the target (device).
