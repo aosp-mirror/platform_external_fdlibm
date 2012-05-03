@@ -88,7 +88,7 @@ ifeq ($(WITH_HOST_DALVIK),true)
         LOCAL_CFLAGS += "-D__LITTLE_ENDIAN"
     endif
 
-    LOCAL_MODULE := libfdlibm
+    LOCAL_MODULE := libfdlibm-host
 
     include $(BUILD_HOST_STATIC_LIBRARY)
 
