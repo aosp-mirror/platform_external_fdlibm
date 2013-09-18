@@ -45,6 +45,9 @@ src_files := \
 # are used.
 cflags := "-D_IEEE_LIBM"
 
+# Android only supports little-endian.
+cflags += "-D__LITTLE_ENDIAN"
+
 # Disable GCC optimizations that interact badly with this crufty
 # library (see their own admission in 'readme'). Without this, we
 # fail StrictMath tests on x86.
@@ -57,19 +60,10 @@ cflags += "-ffloat-store"
 #
 
 include $(CLEAR_VARS)
-
 LOCAL_SRC_FILES:= $(src_files)
 LOCAL_CFLAGS := $(cflags)
-
-ifneq ($(filter $(TARGET_ARCH),arm x86),)
-    # When __LITTLE_ENDIAN is set, the source will compile for
-    # little endian cpus.
-    LOCAL_CFLAGS += "-D__LITTLE_ENDIAN"
-endif
-
 LOCAL_MODULE := libfdlibm
 LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/Android.mk
-
 include $(BUILD_STATIC_LIBRARY)
 
 
@@ -80,18 +74,10 @@ include $(BUILD_STATIC_LIBRARY)
 ifeq ($(WITH_HOST_DALVIK),true)
 
     include $(CLEAR_VARS)
-
     LOCAL_SRC_FILES:= $(src_files)
     LOCAL_CFLAGS := $(cflags)
-
-    ifneq ($(filter $(HOST_ARCH),arm x86),)
-        # See similar section above.
-        LOCAL_CFLAGS += "-D__LITTLE_ENDIAN"
-    endif
-
     LOCAL_MODULE := libfdlibm
     LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/Android.mk
-
     include $(BUILD_HOST_STATIC_LIBRARY)
 
 endif
