@@ -71,13 +71,9 @@ include $(BUILD_STATIC_LIBRARY)
 # Build for the host.
 #
 
-ifeq ($(WITH_HOST_DALVIK),true)
-
-    include $(CLEAR_VARS)
-    LOCAL_SRC_FILES:= $(src_files)
-    LOCAL_CFLAGS := $(cflags)
-    LOCAL_MODULE := libfdlibm
-    LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/Android.mk
-    include $(BUILD_HOST_STATIC_LIBRARY)
-
-endif
+include $(CLEAR_VARS)
+LOCAL_SRC_FILES:= $(src_files)
+LOCAL_CFLAGS := $(cflags)
+LOCAL_MODULE := libfdlibm
+LOCAL_ADDITIONAL_DEPENDENCIES := $(LOCAL_PATH)/Android.mk
+include $(BUILD_HOST_STATIC_LIBRARY)
