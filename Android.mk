@@ -54,6 +54,9 @@ cflags += "-D__LITTLE_ENDIAN"
 cflags += "-fno-strict-aliasing"
 cflags += "-ffloat-store"
 
+# c99 specifies a less relaxed floating point model that does not enable
+# floating point expession contraction (e.g: fused multiply-add operations).
+cflags += "-std=c99"
 
 #
 # Build for the target (device).
