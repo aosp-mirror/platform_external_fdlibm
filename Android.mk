@@ -68,7 +68,6 @@ clang_cflags := -Wno-dangling-else -Wno-logical-op-parentheses -Wno-sometimes-un
 include $(CLEAR_VARS)
 LOCAL_CFLAGS := $(cflags)
 LOCAL_CLANG_CFLAGS := $(clang_cflags)
-LOCAL_CLANG := true
 LOCAL_MODULE := libfdlibm
 LOCAL_SRC_FILES:= $(src_files)
 include $(BUILD_STATIC_LIBRARY)
@@ -81,7 +80,6 @@ include $(BUILD_STATIC_LIBRARY)
 include $(CLEAR_VARS)
 LOCAL_CFLAGS := $(cflags)
 LOCAL_CLANG_CFLAGS := $(clang_cflags)
-LOCAL_CLANG := true
 LOCAL_MODULE := libfdlibm
 LOCAL_MULTILIB := both
 LOCAL_SRC_FILES:= $(src_files)
