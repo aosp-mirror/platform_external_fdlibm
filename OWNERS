@@ -4,3 +4,4 @@ enh@google.com
 narayan@google.com
 hboehm@google.com
 ngeoffray@google.com
+include platform/system/core:/janitors/OWNERS #{LAST_RESORT_SUGGESTION}
